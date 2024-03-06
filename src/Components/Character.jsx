@@ -27,11 +27,12 @@ export default function Character({id,name,status,species,type,image}){
 
     const handleClick = ()=>{
         //if trying to go from clicked to unclicked then no restrictions
-        if(clicked){
-            setClicked(false)
+        if(!clicked && !favoriteChar.some(char=>char.id==id) && availableStars<=4 && availableStars>0){
+            setClicked(true)
+            isComponentClicked(id)
         }
-        if(availableStars>=1){
-            setClicked(!clicked)
+        else if(availableStars>=0){
+            setClicked(false)
             isComponentUnClicked(id)
         }
     }
@@ -51,22 +52,7 @@ export default function Character({id,name,status,species,type,image}){
     },[])
 
     // every time something is clicked then render this. Otherwise it renders on any update and could go off into an infite loop
-    useEffect(()=>{
-        
-         console.log(favoriteChar)
-
-        //will only add to favorites if not already in it
-        if(clicked && !favoriteChar.some(char=>char.id==id)){
-            console.log('adding to list')
-            isComponentClicked(id)
-        }
-        //if at least 1 star is clicked this is currently set to unclick then remove it. First condition bc initialy clicked set to false.
-        if(availableStars<4 && !clicked){
-            console.log("removing from list")
-            isComponentUnClicked(id)
-        }
-        
-    },[clicked])
+   
 
    
     
